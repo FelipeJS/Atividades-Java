@@ -1,0 +1,45 @@
+<html ng-app="serviceConsumer">
+<head runat="server">
+    <title>consume JSON web service</title>
+    <script src="js/angular.js"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <div ng-controller="questionsController">
+            search:<input type="text" ng-model="search" />
+            <table>
+                <tr ng-repeat="i in questions | filter:search">
+                    <td>
+                        {{i.id}}
+                    </td>
+                    <td>
+                        {{i.nome }}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br />
+    </div>
+    <script>
+
+        var app = angular.module('serviceConsumer', []);
+
+        app.controller('questionsController', function ($scope, $http) {
+
+            var url = "http://localhost:8080/InvestProjRestful/usuario/listarTodos";
+
+            $http.get(url)
+                       .success(function (data) {
+
+                           var myjson = JSON.parse(data);
+
+                           $scope.questions = JSON.parse(myjson);
+
+                       })
+        })
+                         
+    </script>
+    </form>
+</body>
+</html>  
